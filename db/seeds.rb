@@ -11,7 +11,7 @@ class Seed
         name: Faker::Name.name,
         email: Faker::Internet.email
         )
-      puts "#{i}: #{user.name} - #{user.email} created!"
+      puts "User #{i}: #{user.name} - #{user.email} created!"
     end
   end
 
@@ -19,9 +19,10 @@ class Seed
     500.times do |i|
       item = Item.create(
         name: Faker::Commerce.product_name,
-        description: Faker::Lorem.paragraph
+        description: Faker::Lorem.paragraph,
+        image_url: "http://robohash.org/#{i}.png?set=set1&size=200x200"
         )
-      puts "#{i}: #{item.name} created!"
+      puts "Item #{i}: #{item.name} created!"
     end
   end
 
@@ -30,7 +31,7 @@ class Seed
       user  = User.find(Random.new.rand(1..50))
       order = Order.create(user_id: user.id)
       add_items(order)
-      puts "#{i}: Order for #{user.name} created!"
+      puts "Order #{i}: Order for #{user.name} created!"
     end
   end
 
