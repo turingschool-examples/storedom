@@ -1,17 +1,17 @@
 development:
   adapter: postgresql
-  database: db/development
+  database: storedom_development
   pool: 5
   timeout: 5000
 
 test:
   adapter: postgresql
-  database: db/test
+  database: storedom_test
   pool: 5
   timeout: 5000
 
 production:
   adapter: postgresql
-  database: db/production
+  database: storedom
   pool: 5
   timeout: 5000
