@@ -7,7 +7,7 @@ class Seed
 
   def generate_users
     50.times do |i|
-      user = User.create(
+      user = User.create!(
         name: Faker::Name.name,
         email: Faker::Internet.email
         )
@@ -17,7 +17,7 @@ class Seed
 
   def generate_items
     500.times do |i|
-      item = Item.create(
+      item = Item.create!(
         name: Faker::Commerce.product_name,
         description: Faker::Lorem.paragraph,
         image_url: "http://robohash.org/#{i}.png?set=set1&size=200x200"
@@ -29,7 +29,7 @@ class Seed
   def generate_orders
     100.times do |i|
       user  = User.find(Random.new.rand(1..50))
-      order = Order.create(user_id: user.id)
+      order = Order.create!(user_id: user.id)
       add_items(order)
       puts "Order #{i}: Order for #{user.name} created!"
     end
