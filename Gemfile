@@ -10,8 +10,8 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'faker'
 gem 'haml-rails'
-#gem 'therubyracer'
-#gem 'less-rails-bootstrap'
+gem 'therubyracer'
+gem 'less-rails-bootstrap'
 
 group :doc do
   gem 'sdoc', require: false
