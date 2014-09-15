@@ -10,13 +10,14 @@
     %ul.nav.navbar-nav
       %li
         %a{href: "/"} Items
-      %li
-        %a{href: "/users"} Users
-      %li
-        %a{href: "/orders"} Orders
       - if user_signed_in?
-        %li.navbar-link.login-info= link_to "Logged in as #{current_user.email}", edit_user_registration_path
+        %li
+          %a{href: "/users"} Users
+        %li
+          %a{href: "/orders"} Orders
+    %ul.nav.navbar-nav.navbar-right
+      - if user_signed_in?
+        %li.navbar-link.login-info= link_to current_user.email, edit_user_registration_path
         %li.navbar-link.login-info= link_to "Logout", destroy_user_session_path, method: :delete
       - else
-        %li.navbar-link.login-info= link_to "Sign up", new_user_registration_path
         %li.navbar-link.login-info= link_to "Login", new_user_session_path
