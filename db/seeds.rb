@@ -6,10 +6,16 @@ class Seed
   end
 
   def generate_users
-    50.times do |i|
+    User.create!(
+      name: "Steve Kinney",
+      email: "steve@turing.io",
+      password: "password"
+      )
+    49.times do |i|
       user = User.create!(
         name: Faker::Name.name,
-        email: Faker::Internet.email
+        email: Faker::Internet.email,
+        password: "password"
         )
       puts "User #{i}: #{user.name} - #{user.email} created!"
     end

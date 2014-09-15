@@ -12,3 +12,7 @@
  *= require_self
  *= require twitter/bootstrap
  */
+
+.login-info {
+  font-weight: 700;
+}
