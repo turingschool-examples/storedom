@@ -9,7 +9,6 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'faker'
-gem 'haml-rails'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
 
