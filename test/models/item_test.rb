@@ -33,4 +33,18 @@ class ItemTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "build stubbed records are not in the DB" do
+    Item.destroy_all
+    item = FactoryGirl.build_stubbed(:item)
+    assert_raises(ActiveRecord::RecordNotFound) { Item.find(item.id) }
+    assert_nil Item.first
+    assert_equal 0, Item.count
+  end
+
+  test "build stubbed still creates associations" do
+    order = FactoryGirl.build_stubbed(:order)
+    assert_equal Order, order.class
+    assert_equal User, order.user.class
+  end
 end
