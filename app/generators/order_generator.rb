@@ -2,8 +2,7 @@ class OrderGenerator
   def generate(quantity, max_items)
     quantity.times do |i|
       Delay.wait
-      user  = User.find(Random.new.rand(1..50))
-      order = Order.create!(user_id: user.id)
+      order = Order.create!(user_id: (rand(100) + 1))
       add_items(order, max_items)
       puts "Order #{i}: Order for #{user.name} created!"
     end
