@@ -1,7 +1,6 @@
 require "populator"
 
 class Seed
-  BATCH_SIZE = 100
   attr_reader :users_count, :items_count, :orders_count
 
   def initialize(users_count = 50, items_count = 500, orders_count = 100)
@@ -14,33 +13,33 @@ class Seed
   end
 
   def generate_users
-    (users_count/BATCH_SIZE).times do
-      User.populate(BATCH_SIZE) do |user|
-        user.name = Faker::Name.name
-        user.email = Faker::Internet.email
-        puts "User: #{user.name} - #{user.email} created!"
-      end
+    User.populate(users_count) do |user|
+      user.name = Faker::Name.name
+      user.email = Faker::Internet.email
+      puts "User: #{user.name} - #{user.email} created!"
     end
   end
 
   def generate_items
-    (items_count/BATCH_SIZE).times do
-      Item.populate(BATCH_SIZE) do |item|
-        item.name = Faker::Commerce.product_name
-        item.description = Faker::Lorem.paragraph
-        item.image_url = Faker::Avatar.image
-        puts "Item: #{item.name} created!"
-      end
+    Item.populate(items_count) do |item|
+      item.name = Faker::Commerce.product_name
+      item.description = Faker::Lorem.paragraph
+      item.image_url = Faker::Avatar.image
+      puts "Item #{item.id}: #{item.name} created!"
     end
   end
 
   def generate_orders
-    raise "stop before orders"
-    orders_count.times do |i|
-      user  = User.find(Random.new.rand(1..users_count))
-      order = Order.create!(user_id: user.id)
-      add_items(order)
-      puts "Order #{i}: Order for #{user.name} created!"
+    number_of_users = User.count
+    number_of_items = Item.count
+    Order.populate(orders_count) do |order|
+      order.user_id = rand(1..number_of_users)
+      order.amount = Faker::Commerce.price
+      OrderItem.populate(rand(1..10)) do |item|
+        item.order_id = order.id
+        item.item_id = rand(1..number_of_items)
+      end
+      puts "Order #{order.id} created"
     end
   end
 
