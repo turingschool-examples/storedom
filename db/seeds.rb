@@ -1,12 +1,17 @@
 class Seed
-  def initialize
+  attr_reader :users_count, :items_count, :orders_count
+
+  def initialize(users_count = 50, items_count = 500, orders_count = 100)
+    @users_count = users_count
+    @items_count = items_count
+    @orders_count = orders_count
     generate_users
     generate_items
     generate_orders
   end
 
   def generate_users
-    50.times do |i|
+    users_count.times do |i|
       user = User.create!(
         name: Faker::Name.name,
         email: Faker::Internet.email
@@ -16,7 +21,7 @@ class Seed
   end
 
   def generate_items
-    500.times do |i|
+    items_count.times do |i|
       item = Item.create!(
         name: Faker::Commerce.product_name,
         description: Faker::Lorem.paragraph,
@@ -27,8 +32,8 @@ class Seed
   end
 
   def generate_orders
-    100.times do |i|
-      user  = User.find(Random.new.rand(1..50))
+    orders_count.times do |i|
+      user  = User.find(Random.new.rand(1..users_count))
       order = Order.create!(user_id: user.id)
       add_items(order)
       puts "Order #{i}: Order for #{user.name} created!"
@@ -38,12 +43,18 @@ class Seed
   private
 
   def add_items(order)
-    10.times do |i|
-      item = Item.find(Random.new.rand(1..500))
+    rand(20).times do |i|
+      item = Item.find(Random.new.rand(1..items_count))
       order.items << item
       puts "#{i}: Added item #{item.name} to order #{order.id}."
     end
   end
 end
 
-Seed.new
+SmallTable.destroy_all
+10.times do
+  SmallTable.create(:some_data => Faker::Lorem.sentences.first, :some_more_data => Faker::Lorem.sentences.first)
+end
+
+#Seed.new
+Seed.new(50000,500000,100000)
