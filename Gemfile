@@ -11,10 +11,12 @@ gem 'jbuilder', '~> 2.0'
 gem 'faker'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
+gem 'pg'
 
 group :development do
   gem 'spring'
   gem 'pry'
+  gem 'populator'
 end
 
 group :development, :test do

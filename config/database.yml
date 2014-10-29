@@ -1,6 +1,6 @@
 development:
-  adapter: sqlite3
-  database: db/storedom_development
+  adapter: postgresql
+  database: storedom_development
   pool: 5
   timeout: 5000
 

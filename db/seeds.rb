@@ -1,4 +1,7 @@
+require "populator"
+
 class Seed
+  BATCH_SIZE = 100
   attr_reader :users_count, :items_count, :orders_count
 
   def initialize(users_count = 50, items_count = 500, orders_count = 100)
@@ -11,27 +14,28 @@ class Seed
   end
 
   def generate_users
-    users_count.times do |i|
-      user = User.create!(
-        name: Faker::Name.name,
-        email: Faker::Internet.email
-        )
-      puts "User #{i}: #{user.name} - #{user.email} created!"
+    (users_count/BATCH_SIZE).times do
+      User.populate(BATCH_SIZE) do |user|
+        user.name = Faker::Name.name
+        user.email = Faker::Internet.email
+        puts "User: #{user.name} - #{user.email} created!"
+      end
     end
   end
 
   def generate_items
-    items_count.times do |i|
-      item = Item.create!(
-        name: Faker::Commerce.product_name,
-        description: Faker::Lorem.paragraph,
-        image_url: "http://robohash.org/#{i}.png?set=set1&size=200x200"
-        )
-      puts "Item #{i}: #{item.name} created!"
+    (items_count/BATCH_SIZE).times do
+      Item.populate(BATCH_SIZE) do |item|
+        item.name = Faker::Commerce.product_name
+        item.description = Faker::Lorem.paragraph
+        item.image_url = Faker::Avatar.image
+        puts "Item: #{item.name} created!"
+      end
     end
   end
 
   def generate_orders
+    raise "stop before orders"
     orders_count.times do |i|
       user  = User.find(Random.new.rand(1..users_count))
       order = Order.create!(user_id: user.id)
@@ -57,4 +61,4 @@ SmallTable.destroy_all
 end
 
 #Seed.new
-Seed.new(50000,500000,100000)
+Seed.new(10000,500000,100000)
