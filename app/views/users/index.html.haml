@@ -8,6 +8,7 @@
       %h2= "User #{user.id}"
       %p <b>Name:</b> #{user.name}
       %p <b>Email:</b> #{user.email}
+      %p <b>Manager ID:</b> #{user.manager_id}
       %h5 Orders
       - if user.orders.count > 0
         - user.orders.each_with_index do |order, index|
