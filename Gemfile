@@ -12,11 +12,10 @@ gem 'therubyracer'
 gem 'less-rails-bootstrap'
 gem 'pg'
 gem "skylight"
-
+gem 'populator'
 group :development do
   gem 'spring'
   gem 'pry'
-  gem 'populator'
 end
 
 group :development, :test do
