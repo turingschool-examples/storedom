@@ -60,4 +60,4 @@ SmallTable.destroy_all
 end
 
 #Seed.new
-Seed.new(10000,500000,100000)
+Seed.new(1000,10,3000)
