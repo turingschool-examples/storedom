@@ -15,7 +15,8 @@ class Seed
       user = User.create!(
         name: Faker::Name.name,
         email: Faker::Internet.email,
-        password: "password"
+        password: "password",
+        manager_id: [1, 50].shuffle.first
         )
       puts "User #{i}: #{user.name} - #{user.email} created!"
     end
