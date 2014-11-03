@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103170713) do
+ActiveRecord::Schema.define(version: 20141103180044) do
+
+  create_table "customers", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "items", force: true do |t|
     t.string   "name"
@@ -20,6 +26,15 @@ ActiveRecord::Schema.define(version: 20141103170713) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "logins", force: true do |t|
+    t.string   "name"
+    t.integer  "customer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "logins", ["customer_id"], name: "index_logins_on_customer_id"
 
   create_table "order_items", force: true do |t|
     t.integer  "order_id"

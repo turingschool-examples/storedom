@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :logins
+
+  resources :customers
+
   resources :photographs
 
   root 'items#index'
