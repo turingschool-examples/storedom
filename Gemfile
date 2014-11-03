@@ -12,6 +12,7 @@ gem 'faker'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
 gem 'pg'
+gem "skylight"
 
 group :development do
   gem 'spring'
