@@ -8,8 +8,10 @@ class Seed
   def generate_users
     50.times do |i|
       user = User.create!(
-        name: Faker::Name.name,
-        email: Faker::Internet.email
+        name:                  Faker::Name.name,
+        email:                 Faker::Internet.email,
+        password:              "password",
+        password_confirmation: "password"
         )
       puts "User #{i}: #{user.name} - #{user.email} created!"
     end
@@ -18,9 +20,9 @@ class Seed
   def generate_items
     500.times do |i|
       item = Item.create!(
-        name: Faker::Commerce.product_name,
+        name:        Faker::Commerce.product_name,
         description: Faker::Lorem.paragraph,
-        image_url: "http://robohash.org/#{i}.png?set=set1&size=200x200"
+        image_url:   "http://robohash.org/#{i}.png?set=set1&size=200x200"
         )
       puts "Item #{i}: #{item.name} created!"
     end
