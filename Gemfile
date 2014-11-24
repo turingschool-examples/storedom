@@ -18,4 +18,6 @@ end
 
 group :development, :test do
   gem 'capybara'
+  gem 'nokogiri'
+  gem 'pry'
 end
