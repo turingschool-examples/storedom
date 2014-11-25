@@ -4,6 +4,7 @@ class CartItemsController < ApplicationController
   def create
     item = Item.find(params[:item_id])
     @cart.add_item(item)
+    flash[:notice] = "You have #{pluralize(@cart.count_of(item), item.name)} in your cart."
     redirect_to item_path(item)
   end
 end
