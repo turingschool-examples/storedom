@@ -1,5 +1,4 @@
 class CartItemsController < ApplicationController
-  before_action :load_cart
 
   def create
     item = Item.find(params[:item_id])

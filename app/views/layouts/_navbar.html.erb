@@ -21,6 +21,9 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
+      <li>
+        Cart: <%= @cart.count_total %>
+      </li>
       <% if current_user %>
         <li>
           <%= link_to "Sign Out", logout_path, method: :delete %>

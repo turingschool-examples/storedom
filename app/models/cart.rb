@@ -13,4 +13,8 @@ class Cart
   def count_of(item)
     data[item.id.to_s]
   end
+
+  def count_total
+    data.values.sum
+  end
 end

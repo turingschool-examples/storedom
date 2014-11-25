@@ -13,4 +13,5 @@ class ApplicationController < ActionController::Base
   def load_cart
     @cart = Cart.new(session[:cart]) # create a Cart instance, even if params[:cart] is nil
   end
+  before_action :load_cart
 end
