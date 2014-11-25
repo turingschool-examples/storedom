@@ -4,7 +4,7 @@
     <h5><%= @item.name %></h5>
     <%= image_tag(@item.image_url) %>
     <p>
-      <%= button_to "Add to Cart", cart_item_path(@item) %>
+      <%= button_to "Add to Cart", cart_items_path(:item_id => @item) %>
     </p>
     <p>
       <%= @item.description %>
