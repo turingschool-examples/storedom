@@ -10,8 +10,6 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'faker'
 gem 'haml-rails'
-#gem 'therubyracer'
-#gem 'less-rails-bootstrap'
 
 group :doc do
   gem 'sdoc', require: false
@@ -19,4 +17,5 @@ end
 
 group :development, :test do
   gem 'capybara'
+  gem 'pry', :require => 'pry'
 end
