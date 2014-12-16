@@ -1,17 +1,17 @@
 development:
-  adapter: sqlite3
-  database: db/storedom_development
+  adapter: postgresql
+  database: storedom_development
   pool: 5
   timeout: 5000
 
 test:
-  adapter: sqlite3
-  database: db/storedom_test
+  adapter: postgresql
+  database: storedom_test
   pool: 5
   timeout: 5000
 
 production:
-  adapter: sqlite3
-  database: db/storedom
+  adapter: postgresql
+  database: storedom
   pool: 5
   timeout: 5000
