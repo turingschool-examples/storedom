@@ -13,6 +13,7 @@ gem 'haml-rails'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
 gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :development do
   gem 'spring'
