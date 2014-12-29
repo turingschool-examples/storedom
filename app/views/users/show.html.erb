@@ -1,0 +1,15 @@
+<div class="col-sm-12">
+  <h2>User <%= @user.id %></h2>
+  <p><strong>Name:</strong> <%= @user.name %></p>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <h5>Orders</h5>
+  <% if @user.orders.count > 0 %>
+    <% @user.orders.each_with_index do |order, index| %>
+      <p>
+        <%= "#{index + 1}. Order #{order.id}" %>
+      </p>
+    <% end %>
+  <% else %>
+    <p>This user doesn't have any orders.</p>
+  <% end %>
+</div>
