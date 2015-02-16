@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-6">
+    <h2>Login to Storedom</h2>
+    <%= form_tag '/login', method: :post do %>
+      <div class="form-group">
+        <%= label_tag :email %>
+        <%= email_field_tag :email, "", class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= label_tag :password %>
+        <%= password_field_tag :password, "", class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= submit_tag "Enter Storedom", class: "form-control btn btn-default btn-success" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-sm-3">
+  </div>
+</div>
