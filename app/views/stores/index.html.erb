@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="col-sm-12">
+    <h1><%= @stores.count %> Stores</h1>
+    <hr>
+    <% @stores.each do |store| %>
+      <h3><%= link_to store.name, store_path(store.id) %></h3>
+      <h5>
+        <%= store.items.count %> items,
+        <%= store.orders.count %> orders,
+        <%= store.users.count %> users
+      </h5>
+    <% end %>
+  </div>
+</div>
