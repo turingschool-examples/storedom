@@ -16,14 +16,23 @@
       <li>
         <%= link_to 'Items', items_path %>
       </li>
-      <li>
-        <%= link_to 'Users', users_path %>
-      </li>
-      <li>
-        <%= link_to 'Orders', orders_path %>
-      </li>
+      <% if platform_admin? %>
+        <li>
+          <%= link_to 'Users', users_path %>
+        </li>
+      <% end %>
+      <% if platform_admin? || store_admin? %>
+        <li>
+          <%= link_to 'Orders', orders_path %>
+        </li>
+      <% end %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
+      <% if store_admin? %>
+        <li>
+          <%= link_to "My Store", store_path(current_user.store.id)  %>
+        </li>
+      <% end %>
       <% if current_user %>
         <li>
           <%= link_to 'Logout', logout_path, method: :delete %>
