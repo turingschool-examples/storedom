@@ -1,0 +1,10 @@
+<% @orders.each do |order| %>
+  <strong>
+    <%= order.created_at %>
+  </strong>
+  <ul>
+    <% order.items.each do |item| %>
+      <li><%= item.name %></li>
+    <% end %>
+  </ul>
+<% end %>

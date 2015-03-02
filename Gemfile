@@ -11,6 +11,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'faker'
 gem 'haml-rails'
 gem 'therubyracer'
+gem 'ruby-prof'
+gem 'rails-perftest'
 gem 'less-rails-bootstrap'
 
 group :development do
