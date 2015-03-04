@@ -1,11 +1,16 @@
 class OrderGenerator
+  include Sidekiq::Worker
+  def perform(i, max_items)
+    Delay.wait
+    user_id = rand(100) + 1
+    order = Order.create!(user_id: user_id)
+    add_items(order, max_items)
+    puts "Order #{i}: Order for User #{user_id} created!"
+  end
+
   def generate(quantity, max_items)
     quantity.times do |i|
-      Delay.wait
-      user_id = rand(100) + 1
-      order = Order.create!(user_id: user_id)
-      add_items(order, max_items)
-      puts "Order #{i}: Order for User #{user_id} created!"
+      self.class.perform_async(i, max_items)
     end
   end
 
