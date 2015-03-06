@@ -6,6 +6,6 @@ class Order < ActiveRecord::Base
 
   def self.most_recent
     # Find the first ten orders sorted by date created
-    all.sort_by { |order| order.created_at }.last(10)
+    all.sort_by { |order| order.created_at }.last(10).reverse
   end
 end
