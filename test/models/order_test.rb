@@ -22,4 +22,23 @@ class OrderTest < ActiveSupport::TestCase
 
     assert_equal expected, Order.most_recent
   end
+
+  def test_it_returns_the_three_largest_orders
+    order_1 = Order.create
+    order_2 = Order.create
+    order_3 = Order.create
+    order_4 = Order.create
+    order_5 = Order.create
+
+    item = Item.create
+
+    order_1.items = [item]
+    order_2.items = [item,item]
+    order_3.items = [item,item,item,item]
+    order_4.items = [item,item,item,item,item]
+    order_5.items = [item,item,item]
+
+    expected = [order_4, order_3, order_5]
+    assert_equal expected, Order.largest
+  end
 end
