@@ -1,4 +1,6 @@
 class HolesController < ApplicationController
+  before_filter :setup_user_images
+
   def one # par 3
     @orders = Order.most_recent
     render 'orders'
@@ -26,13 +28,35 @@ class HolesController < ApplicationController
     #
     # 2. If everything is good, you should be rewarded when
     #    you visit /holes/five
-    @image_1 = Image.where(url: 'https://placekitten.com/g/200/300',
+    image_1 = Image.where(url: 'https://placekitten.com/g/200/300',
                            imageable_type: 'User',
                            imageable_id: 1).first_or_create
-    @image_2 = Image.where(url: 'http://placekitten.com/450/300'
+    image_2 = Image.where(url: 'http://placekitten.com/450/300',
                            imageable_type: 'Item',
                            imageable_id: 2).first_or_create
-                          ).first_or_create
+
+    @images = [image_1, image_2]
+    @message = "Here's some kittens."
     render 'images'
+  end
+
+  def six # par 3
+    # Must complete hole five above first.
+    @message = "Here's some robots."
+
+    # Update this line of code so it doesn't reference the Image class
+    @images = Image.where(imageable_type: "User", imageable_id: @user.id)
+    render 'images'
+  end
+
+  private
+
+  def setup_user_images
+    @user = User.first
+    5.times.do |i|
+      Image.create(url: "http://robohash.org/#{i}.png?set=set1&size=200x200",
+                  imageable_type: "User",
+                  imageable_id: @user.id)
+    end
   end
 end

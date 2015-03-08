@@ -6,10 +6,10 @@ class ImageTest < ActiveSupport::TestCase
     item = Item.create(name: "Blunderbuss")
 
     # This assumes a user has_many images
-    user.images.create(url: "http://placekitten.com/450/300")
+    image_1 = user.images.create(url: "http://placekitten.com/450/300")
 
     # This assumes an item has_many images
-    item.images.create(url: "https://placekitten.com/g/200/300")
+    image_2 = item.images.create(url: "https://placekitten.com/g/200/300")
 
     assert_equal "User", image_1.imageable_type
     assert_equal user.id, image_1.imageable_id
