@@ -29,10 +29,9 @@ class HolesController < ApplicationController
     @image_1 = Image.where(url: 'https://placekitten.com/g/200/300',
                            imageable_type: 'User',
                            imageable_id: 1).first_or_create
-    @image_2 = Image.where(url: 'http://placekitten.com/450/300'
+    @image_2 = Image.where(url: 'http://placekitten.com/450/300',
                            imageable_type: 'Item',
                            imageable_id: 2).first_or_create
-                          ).first_or_create
     render 'images'
   end
 end

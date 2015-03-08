@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   get '/holes/one' => 'holes#one'
   get '/holes/two' => 'holes#two'
   get '/holes/three' => 'holes#three'
+  get '/holes/four' => 'holes#four'
+  get '/holes/five' => 'holes#five'
 end
