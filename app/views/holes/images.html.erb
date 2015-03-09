@@ -1,3 +1,7 @@
-<h2>Nicely done! Here are some kittens:</h2>
-<%= image_tag @image_1.url %><br />
-<%= image_tag @image_2.url %>
+<h2>Nicely done! <%= @message %></h2>
+
+<% @images.each do |image| %>
+  <p>
+    <%= image_tag image_1.url %>
+  </p>
+<% end %>
