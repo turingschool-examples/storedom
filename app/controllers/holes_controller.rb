@@ -44,7 +44,9 @@ class HolesController < ApplicationController
     # Must complete hole five above first.
     @message = "Here's some robots."
 
-    # Update this line of code so it doesn't reference the Image class
+    # Update the line of code below so it doesn't reference the Image class.
+    # There's also no need to hit the database again.
+    # Update the @user assignment to include the images.
     @images = Image.where(imageable_type: "User", imageable_id: @user.id)
     render 'images'
   end
@@ -53,10 +55,10 @@ class HolesController < ApplicationController
 
   def setup_user_images
     @user = User.first
-    5.times.do |i|
-      Image.create(url: "http://robohash.org/#{i}.png?set=set1&size=200x200",
+    5.times do |i|
+      Image.where(url: "http://robohash.org/#{i}.png?set=set1&size=200x200",
                   imageable_type: "User",
-                  imageable_id: @user.id)
+                  imageable_id: @user.id).first_or_create
     end
   end
 end
