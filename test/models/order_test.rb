@@ -39,6 +39,6 @@ class OrderTest < ActiveSupport::TestCase
     order_5.items = [item,item,item]
 
     expected = [order_4, order_3, order_5]
-    assert_equal expected, Order.largest
+    assert_equal expected.to_set, Order.largest.to_set
   end
 end
