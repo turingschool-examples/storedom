@@ -1,5 +1,5 @@
 class HolesController < ApplicationController
-  before_filter :setup_user_images
+  before_filter :setup_user_images, only: [:five, :six]
 
   def one # par 3
     @orders = Order.most_recent
