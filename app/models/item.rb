@@ -11,9 +11,17 @@ class Item < ActiveRecord::Base
   end
 
   def purchasers
-    # find all of the users who have ordered that item.
+    # find all of the users who have ordered this same item.
     order_ids = OrderItem.all.select { |order_item| order_item.item_id == id }.map(&:order_id)
     orders = Order.find(order_ids)
     orders.map(&:user)
+  end
+
+  def self.ordered
+    # Hint: joins is your friend.
+    orders = Order.all
+    items = orders.flat_map do |order|
+      order.items
+    end.uniq
   end
 end

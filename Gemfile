@@ -20,6 +20,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'bullet'
   gem 'capybara'
-  gem 'pry', :require => 'pry'
+  gem 'byebug'
 end

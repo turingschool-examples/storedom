@@ -5,7 +5,9 @@ class Order < ActiveRecord::Base
   has_many :items, through: :order_items
 
   def self.most_recent
-    # Find the first ten orders sorted by date created
+    # Find the ten most recent orders
+    # Improve this to use ActiveRecord instead of Ruby
+    # The final implementation should allow ActiveRecord chaining
 
     all.sort_by { |order| order.created_at }.last(10).reverse
   end
