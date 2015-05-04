@@ -20,5 +20,9 @@ module Storedom
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.i18n.enforce_available_locales = true
+    config.middleware.use Rack::Cache,
+      :verbose => true,
+      :metastore   => 'file:/tmp/cache/rack/meta',
+      :entitystore => 'file:/tmp/cache/rack/body'
   end
 end

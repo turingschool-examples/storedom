@@ -11,6 +11,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'faker'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
+gem 'rack-cache'
 
 group :development do
   gem 'spring'
