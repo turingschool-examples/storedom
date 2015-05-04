@@ -12,6 +12,10 @@ gem 'faker'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
 gem 'rack-cache'
+gem "dalli"
+gem 'actionpack-action_caching'
+gem 'actionpack-page_caching'
+
 
 group :development do
   gem 'spring'

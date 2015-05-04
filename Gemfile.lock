@@ -10,6 +10,10 @@ GEM
       activesupport (= 4.1.4)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
+    actionpack-action_caching (1.1.1)
+      actionpack (>= 4.0.0, < 5.0)
+    actionpack-page_caching (1.0.2)
+      actionpack (>= 4.0.0, < 5)
     actionview (4.1.4)
       activesupport (= 4.1.4)
       builder (~> 3.1)
@@ -43,6 +47,7 @@ GEM
       execjs
     coffee-script-source (1.7.1)
     commonjs (0.2.7)
+    dalli (2.7.4)
     erubis (2.7.0)
     execjs (2.2.1)
     faker (1.4.2)
@@ -136,8 +141,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionpack-action_caching
+  actionpack-page_caching
   capybara
   coffee-rails (~> 4.0.0)
+  dalli
   faker
   jbuilder (~> 2.0)
   jquery-rails
