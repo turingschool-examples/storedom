@@ -18,6 +18,7 @@ gem 'actionpack-page_caching'
 
 
 group :development do
+  gem 'pry'
   gem 'spring'
 end
 

@@ -1,3 +1,27 @@
+<a href="#" id="my-button">
+  click my button
+</a>
+
+<script>
+  $("#my-button").click(function(e) {
+    e.preventDefault();
+    console.log("clicked my button");
+    $("#my-button").css("background-color", "red");
+    $("body").prepend("<img id='spinner' src='http://www.mibugs.com/wp-content/uploads/2014/05/spinner.gif'>");
+    $.ajax({
+      url: "/items/new",
+      success: function(response) {
+        console.log("finished ajax!");
+        $("body").prepend(response);
+        $("#spinner").remove();
+        $("#my-button").css("background-color", "white");
+      }});
+    console.log("dispatched AJAX request");
+  });
+    //.done(function(response) {
+    //});
+</script>
+
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
@@ -8,7 +32,7 @@
   <% items.each do |item| %>
     <div class="col-sm-3">
       <h5><%= item.name %></h5>
-      <%= link_to(image_tag(item.image_url), item_path(item)) %>
+      <%= link_to("pizza", item_path(item)) %>
       <p>
         <%= item.description %>
       </p>
