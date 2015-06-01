@@ -1,26 +1,11 @@
 <div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1><%= @users.count %> Users</h1>
-    </div>
+  <div class="col-sm-12">
+    <h1 class="pull-left"><%= @users.count %> Users</h1>
+    <%= link_to "New User", new_user_path, class: "btn btn-default pull-right" %>
   </div>
-  <div class="row"></div>
   <% @users.each do |user| %>
     <div class="col-sm-12">
-      <h2>User <%= user.id %></h2>
-      <p><strong>Name:</strong> <%= user.name %></p>
-      <p><strong>Email:</strong> <%= user.email %></p>
-      <h5>Orders</h5>
-      <% if user.orders.count > 0 %>
-        <% user.orders.each_with_index do |order, index| %>
-          <p>
-            <%= "#{index + 1}. Order #{order.id}" %>
-          </p>
-        <% end %>
-      <% else %>
-        <p>This user doesn't have any orders.</p>
-      <% end %>
+      <h2> <%= link_to user.name, user_path(user) %></h2>
     </div>
   <% end %>
 </div>
-

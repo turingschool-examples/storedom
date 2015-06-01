@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="col-sm-3">
+    <h5><%= @user.name %></h5>
+    <p>
+      <%= @user.email %>
+    </p>
+    <p>
+      <%= link_to "Edit User", edit_user_path(@user), class: "btn btn-default" %>
+    </p>
+  </div>
+</div>

@@ -1,10 +1,12 @@
 <div class="container">
-  <div class="row"></div>
   <div class="col-sm-3">
     <h5><%= @item.name %></h5>
     <%= image_tag(@item.image_url) %>
     <p>
       <%= @item.description %>
+    </p>
+    <p>
+      <%= link_to "Edit Item", edit_item_path(@item), class: "btn btn-default" %>
     </p>
   </div>
 </div>
