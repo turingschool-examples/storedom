@@ -7,7 +7,8 @@ class StoresControllerTest < ActionController::TestCase
   end
 
   test "should get show" do
-    get :show
+    s = Store.create(name: "worace's workshop")
+    get :show, id: s.id
     assert_response :success
   end
 

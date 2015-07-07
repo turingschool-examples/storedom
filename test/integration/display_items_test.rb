@@ -7,7 +7,7 @@ class DisplaysItemsTest < ActionDispatch::IntegrationTest
   end
 
   def test_it_reaches_the_root_page
-    visit '/'
+    visit '/items'
     assert_equal 200, page.status_code
 
     within('h1') do
