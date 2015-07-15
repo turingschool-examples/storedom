@@ -13,11 +13,11 @@ gem 'haml-rails'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
 
-group :development do
-  gem 'spring'
-end
-
 group :development, :test do
   gem 'capybara'
   gem 'pry', :require => 'pry'
+end
+
+group :test do
+  gem 'rspec-rails'
 end
