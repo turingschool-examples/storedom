@@ -1,11 +1,13 @@
 <div class="container">
-  <% cache("items-count-#{Item.count}-#{Item.maximum(:updated_at)}") do %>
+  <% cache("items-list", expires_in: 6.hours) do %>
   <div class="row">
     <div class="col-sm-12">
       <h1><%= @items.count %> Items</h1>
     </div>
+    <% end %>
   </div>
   <div class="row"></div>
+  <% cache("items-list") do %>
   <% @items.each do |item| %>
     <div class="col-sm-3">
       <h5><%= item.name %></h5>
