@@ -1,10 +1,13 @@
 <div class="container">
+  <% cache(action: "index", action_suffix: "orders-count") do %>
   <div class="row">
     <div class="col-sm-12">
       <h1><%= @orders.count %> Orders</h1>
     </div>
   </div>
+  <% end %>
   <div class="row"></div>
+  <% cache("orders-list") do %>
   <% @orders.each do |order| %>
     <div class="col-sm-12">
       <h2>Order <%= order.id %></h2>
@@ -16,6 +19,7 @@
         </p>
       <% end %>
     </div>
+  <% end %>
   <% end %>
 </div>
 
