@@ -20,4 +20,6 @@ end
 group :development, :test do
   gem 'capybara'
   gem 'pry', :require => 'pry'
+  gem 'rspec-rails'
+  gem 'database_cleaner'
 end
