@@ -1,0 +1,7 @@
+<div class="container">
+    <ol>
+      <% @items.each do |item| %>
+        <li><%= link_to item.name, store_item_path(id: item.id) %></li>
+      <% end %>
+    </ol>
+</div>

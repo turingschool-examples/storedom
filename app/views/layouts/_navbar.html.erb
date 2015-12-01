@@ -6,6 +6,9 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
+    <% if current_store %>
+      <%= link_to(current_store.name, store_items_path(store: current_store.slug), class: "navbar-brand") %>
+    <% end %>
     <a class="navbar-brand" href="/">Storedom</a>
   </div>
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

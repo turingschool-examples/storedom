@@ -1,0 +1,5 @@
+<div class="container">
+  <% @stores.each do |store| %>
+    <h1><%= link_to store.name, store_items_path(store: store.slug) %></h1>
+  <% end %>
+</div>
