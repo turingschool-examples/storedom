@@ -18,7 +18,7 @@ class ItemsController < ApplicationController
       redirect_to items_path, notice: "The item was created."
     else
       flash.now[:notice] = "The item was not created."
-      render :edit
+      render :new
     end
   end
 
