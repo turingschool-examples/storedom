@@ -12,6 +12,8 @@ gem 'faker'
 gem 'haml-rails'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
+gem 'bcrypt'
+
 
 group :development do
   gem 'spring'
