@@ -214,7 +214,7 @@ describe "ActiveRecord Obstacle Course" do
 
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    names = Order.joins(:items).pluck(:name)
     # ------------------------------------------------------------
 
     # Expectation
@@ -271,7 +271,7 @@ describe "ActiveRecord Obstacle Course" do
     # -----------------------------------------------------------
 
     # Expectation
-    expect(total_sales).to eq(9751)
+    expect(total_sales).to eq(9750)
   end
 
   it "returns all orders for item_4" do
@@ -281,7 +281,7 @@ describe "ActiveRecord Obstacle Course" do
     # -----------------------------------------------------------
 
     # ------------------ Improved Solution ----------------------
-    #  Solution goes here
+    orders = Item.find_by(name: "Thing 4").orders
     # -----------------------------------------------------------
 
     # Expectation
@@ -300,12 +300,10 @@ describe "ActiveRecord Obstacle Course" do
     end
 
     ordered_items = ordered_items.compact
-
-
     # ------------------------------------------------------------
 
     # ------------------ ActiveRecord Solution ----------------------
-    # Solution goes here
+    ordered_items = Item.joins(:orders).distinct
     # ---------------------------------------------------------------
 
     # Expectations
@@ -321,19 +319,17 @@ describe "ActiveRecord Obstacle Course" do
     unordered_items = [unordered_item_1, unordered_item_2, unordered_item_3]
 
     # ----------------------- Using Ruby -------------------------
-    items = Item.all
-
-    ordered_items = items.map do |item|
-      item if item.orders.present?
-    end.compact
-
-    ordered_items_names = ordered_items.map(&:name)
+    # items = Item.all
+    #
+    # ordered_items = items.map do |item|
+    #   item if item.orders.present?
+    # end.compact
+    #
+    # ordered_items_names = ordered_items.map(&:name)
     # ------------------------------------------------------------
 
     # ------------------ ActiveRecord Solution ----------------------
-    # Solution goes here
-    # When you find a solution, experiment with adjusting your method chaining
-    # Which ones are you able to switch around without relying on Ruby's Enumerable methods?
+    ordered_items_names = Item.joins(:orders).distinct.pluck(:name)
     # ---------------------------------------------------------------
 
     # Expectations
