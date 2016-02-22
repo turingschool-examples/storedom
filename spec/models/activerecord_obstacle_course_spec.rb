@@ -15,7 +15,7 @@ describe "ActiveRecord Obstacle Course" do
   let!(:order_1)  { Order.create(amount: 200, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_2)  { Order.create(amount: 300, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_3)  { Order.create(amount: 500, items: [item_2, item_3, item_4, item_5]) }
-  let!(:order_4)  { Order.create(amount: 500, items: [item_1, item_1, item_2, item_3]) }
+  let!(:order_4)  { Order.create(amount: 501, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_5)  { Order.create(amount: 550, items: [item_1, item_5, item_4, item_7]) }
   let!(:order_6)  { Order.create(amount: 580, items: [item_5, item_8, item_9, item_10]) }
   let!(:order_7)  { Order.create(amount: 600, items: [item_1, item_5, item_7, item_9]) }
@@ -33,12 +33,13 @@ describe "ActiveRecord Obstacle Course" do
 
   it "finds orders by amount" do
     # ----------------------- Using Ruby -------------------------
-    orders_of_500 = Order.all.select { |order| order.amount == 500 }
-    orders_of_200 = Order.all.select { |order| order.amount == 200 }
+    # orders_of_500 = Order.all.select { |order| order.amount == 500 }
+    # orders_of_200 = Order.all.select { |order| order.amount == 200 }
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_of_500 = Order.where(amount: 500)
+    orders_of_200 = Order.where("amount =?", 200)
     # ------------------------------------------------------------
 
     # Expectation
@@ -48,18 +49,19 @@ describe "ActiveRecord Obstacle Course" do
 
   it "finds orders of multiple amounts" do
     # ----------------------- Using Ruby -------------------------
-    orders_of_500_and_700 = Order.all.select do |order|
-      order.amount == 500 || order.amount == 700
-    end
-
-    orders_of_700_and_1000 = Order.all.select do |order|
-      order.amount == 700 || order.amount == 1000
-    end
+    # orders_of_500_and_700 = Order.all.select do |order|
+    #   order.amount == 500 || order.amount == 700
+    # end
+    #
+    # orders_of_700_and_1000 = Order.all.select do |order|
+    #   order.amount == 700 || order.amount == 1000
+    # end
     # ------------------------------------------------------------
 
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_of_500_and_700 = Order.where(amount: [500, 700])
+    orders_of_700_and_1000 = Order.where(amount: [700, 1000] )
     # ------------------------------------------------------------
 
     # Expectation
@@ -70,12 +72,12 @@ describe "ActiveRecord Obstacle Course" do
   it 'finds multiple items by id' do
     ids = [item_1.id, item_2.id, item_4.id]
     # ----------------------- Using Ruby -------------------------
-    items = Item.all.select { |item| ids.include?(item.id) }
+    # items = Item.all.select { |item| ids.include?(item.id) }
     # ------------------------------------------------------------
 
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    items = Item.find(ids)
     # ------------------------------------------------------------
 
     # Expectation
@@ -90,7 +92,7 @@ describe "ActiveRecord Obstacle Course" do
 
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders = Order.find(ids)
     # ------------------------------------------------------------
 
     # Expectation
@@ -99,12 +101,12 @@ describe "ActiveRecord Obstacle Course" do
 
   it "finds orders with an amount between 700 and 1000" do
     # ----------------------- Using Ruby -------------------------
-    orders_between_700_and_1000 = Order.all.select { |order| order.amount >= 700 && order.amount <= 1000 }
+    # orders_between_700_and_1000 = Order.all.select { |order| order.amount >= 700 && order.amount <= 1000 }
     # ------------------------------------------------------------
 
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_between_700_and_1000 = Order.where("amount >= ? AND amount <= ?", 700, 1000)
     # ------------------------------------------------------------
 
     # Expectation
@@ -114,12 +116,12 @@ describe "ActiveRecord Obstacle Course" do
 
   it "finds orders with an amount less than 550" do
     # ----------------------- Using Ruby -------------------------
-    orders_less_than_550 = Order.all.select { |order| order.amount < 550 }
+    # orders_less_than_550 = Order.all.select { |order| order.amount < 550 }
     # ------------------------------------------------------------
 
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders_less_than_550 = Order.where("amount <?", 550)
     # ------------------------------------------------------------
 
     # Expectation
@@ -128,11 +130,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "sorts the orders from most expensive to least expensive" do
     # ----------------------- Using Ruby -------------------------
-    orders = Order.all.sort_by { |order| order.amount }.reverse
+    # orders = Order.all.sort_by { |order| order.amount }.reverse
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders = Order.order(amount: :desc)
     # ------------------------------------------------------------
 
     # Expectation
@@ -147,7 +149,7 @@ describe "ActiveRecord Obstacle Course" do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders = Order.order(:amount)
     # ------------------------------------------------------------
 
     # Expectation
