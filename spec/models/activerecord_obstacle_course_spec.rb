@@ -60,8 +60,8 @@ describe "ActiveRecord Obstacle Course" do
 
 
     # ------------------ Using ActiveRecord ----------------------
-    orders_of_500_and_700 = Order.where(amount: [500, 700])
-    orders_of_700_and_1000 = Order.where(amount: [700, 1000] )
+    orders_of_500_and_700 = Order.where( amount: [500, 700] )
+    orders_of_700_and_1000 = Order.where("amount =? OR amount =?", 500, 700)
     # ------------------------------------------------------------
 
     # Expectation
@@ -107,6 +107,8 @@ describe "ActiveRecord Obstacle Course" do
 
     # ------------------ Using ActiveRecord ----------------------
     orders_between_700_and_1000 = Order.where("amount >= ? AND amount <= ?", 700, 1000)
+    orders_between_700_and_1000 = Order.where(amount: 700..1000)
+
     # ------------------------------------------------------------
 
     # Expectation
@@ -135,6 +137,7 @@ describe "ActiveRecord Obstacle Course" do
 
     # ------------------ Using ActiveRecord ----------------------
     orders = Order.order(amount: :desc)
+    orders = Order.order("amount DESC")
     # ------------------------------------------------------------
 
     # Expectation
@@ -161,11 +164,11 @@ describe "ActiveRecord Obstacle Course" do
   it "should return all items except items: 3, 4 & 5" do
     # ----------------------- Using Ruby -------------------------
     items_not_included = [item_3, item_4, item_5]
-    items = Item.all.map { |item| item unless items_not_included.include?(item) }.compact
+    # items = Item.all.map { |item| item unless items_not_included.include?(item) }.compact
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    items = Item.where.not(id: items_not_included)
     # ------------------------------------------------------------
 
     # Expectation
@@ -175,12 +178,12 @@ describe "ActiveRecord Obstacle Course" do
 
   it "groups an order's items by name" do
     # ----------------------- Using Ruby -------------------------
-    order = Order.find(3)
-    grouped_items = order.items.sort_by { |item| item.name }
+    # order = Order.find(3)
+    # grouped_items = order.items.sort_by { |item| item.name }
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    grouped_items = Order.find(3).items.order(:name)
     # ------------------------------------------------------------
 
     # Expectation
@@ -189,11 +192,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "plucks all values from one column" do
     # ----------------------- Using Ruby -------------------------
-    names = Item.all.map(&:name)
+    # names = Item.all.map(&:name)
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    names = Item.pluck(:name)
     # ------------------------------------------------------------
 
     # Expectation
@@ -203,13 +206,12 @@ describe "ActiveRecord Obstacle Course" do
 
   it "gets all item names associated with all orders" do
     # ----------------------- Using Ruby -------------------------
-    names = Order.all.map do |order|
-      if order.items
-        order.items.map { |item| item.name }
-      end
-    end
+    # names = Order.all.map do |order|
+    #   if order.items
+    #     order.items.flat_map { |item| item.name }
+    #   end
+    # end
 
-    names = names.flatten
     # ------------------------------------------------------------
 
 
@@ -338,7 +340,7 @@ describe "ActiveRecord Obstacle Course" do
   end
 
 
-  xit "returns the names of items that have been ordered without n+1 queries" do
+  it "returns the names of items that have been ordered without n+1 queries" do
     # What is an n+1 query?
     # This video is older, but the concepts explained are still relevant:
     # http://railscasts.com/episodes/372-bullet
@@ -349,7 +351,7 @@ describe "ActiveRecord Obstacle Course" do
     Bullet.start_request
 
     # ------------------------------------------------------
-    orders = Order.all # Edit only this line
+    orders = Order.includes(:items)
     # ------------------------------------------------------
 
     # Do not edit below this line
