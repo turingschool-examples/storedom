@@ -15,7 +15,7 @@ describe "ActiveRecord Obstacle Course" do
   let!(:order_1)  { Order.create(amount: 200, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_2)  { Order.create(amount: 300, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_3)  { Order.create(amount: 500, items: [item_2, item_3, item_4, item_5]) }
-  let!(:order_4)  { Order.create(amount: 500, items: [item_1, item_1, item_2, item_3]) }
+  let!(:order_4)  { Order.create(amount: 501, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_5)  { Order.create(amount: 550, items: [item_1, item_5, item_4, item_7]) }
   let!(:order_6)  { Order.create(amount: 580, items: [item_5, item_8, item_9, item_10]) }
   let!(:order_7)  { Order.create(amount: 600, items: [item_1, item_5, item_7, item_9]) }
@@ -42,7 +42,7 @@ describe "ActiveRecord Obstacle Course" do
     # ------------------------------------------------------------
 
     # Expectation
-    expect(orders_of_500.count).to eq(2)
+    expect(orders_of_500.count).to eq(1)
     expect(orders_of_200.count).to eq(1)
   end
 
@@ -63,7 +63,7 @@ describe "ActiveRecord Obstacle Course" do
     # ------------------------------------------------------------
 
     # Expectation
-    expect(orders_of_500_and_700.count).to eq(3)
+    expect(orders_of_500_and_700.count).to eq(2)
     expect(orders_of_700_and_1000.count).to eq(2)
   end
 
