@@ -20,7 +20,7 @@ describe "ActiveRecord Obstacle Course" do
   let!(:order_6)  { Order.create(amount: 580, items: [item_5, item_8, item_9, item_10]) }
   let!(:order_7)  { Order.create(amount: 600, items: [item_1, item_5, item_7, item_9]) }
   let!(:order_8)  { Order.create(amount: 700, items: [item_2, item_3, item_8, item_9]) }
-  let!(:order_9)  { Order.create(amount: 650, items: [item_3, item_4, item_8, item_10]) }
+  let!(:order_9)  { Order.create(amount: 649, items: [item_3, item_4, item_8, item_10]) }
   let!(:order_10) { Order.create(amount: 750, items: [item_1, item_5, item_4, item_7]) }
   let!(:order_11) { Order.create(amount: 800, items: [item_5, item_4, item_7, item_9]) }
   let!(:order_12) { Order.create(amount: 850, items: [item_1, item_3, item_7, item_10]) }
@@ -87,7 +87,7 @@ describe "ActiveRecord Obstacle Course" do
   it "finds multiple orders by id" do
     ids = [order_1.id, order_3.id, order_5.id, order_7.id]
     # ----------------------- Using Ruby -------------------------
-    orders = Order.all.select { |order| ids.include?(order.id) }
+    # orders = Order.all.select { |order| ids.include?(order.id) }
     # ------------------------------------------------------------
 
 
@@ -145,7 +145,7 @@ describe "ActiveRecord Obstacle Course" do
 
   it "sorts the orders from least expensive to most expensive" do
     # ----------------------- Using Ruby -------------------------
-    orders = Order.all.sort_by { |order| order.amount }
+    # orders = Order.all.sort_by { |order| order.amount }
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
@@ -237,11 +237,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "returns the name of items associated with a specific order" do
     # ----------------------- Using Ruby -------------------------
-    names = Order.last.items.all.map(&:name)
+    # names = Order.last.items.all.map(&:name)
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    names = Order.last.items.pluck(:name)
     # ------------------------------------------------------------
 
     # Expectation
@@ -250,11 +250,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "returns the average amount for all orders" do
     # ---------------------- Using Ruby -------------------------
-    average = (Order.all.map(&:amount).inject(:+)) / (Order.count)
+    # average = (Order.all.map(&:amount).inject(:+)) / (Order.count)
     # -----------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    average = Order.average(:amount)
     # ------------------------------------------------------------
 
     # Expectation
@@ -263,15 +263,15 @@ describe "ActiveRecord Obstacle Course" do
 
   it "calculates the total sales" do
     # ---------------------- Using Ruby -------------------------
-    total_sales = Order.all.map(&:amount).inject(:+)
+    # total_sales = Order.all.map(&:amount).inject(:+)
     # -----------------------------------------------------------
 
     # ------------------ Using ActiveRecord ---------------------
-    # Solution goes here
+    total_sales = Order.sum(:amount)
     # -----------------------------------------------------------
 
     # Expectation
-    expect(total_sales).to eq(9750)
+    expect(total_sales).to eq(9751)
   end
 
   it "returns all orders for item_4" do
@@ -300,6 +300,8 @@ describe "ActiveRecord Obstacle Course" do
     end
 
     ordered_items = ordered_items.compact
+
+
     # ------------------------------------------------------------
 
     # ------------------ ActiveRecord Solution ----------------------
