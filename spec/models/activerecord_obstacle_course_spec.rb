@@ -43,7 +43,7 @@ describe "ActiveRecord Obstacle Course" do
     # ------------------------------------------------------------
 
     # Expectation
-    expect(orders_of_500.count).to eq(2)
+    expect(orders_of_500.count).to eq(1)
     expect(orders_of_200.count).to eq(1)
   end
 
@@ -65,7 +65,7 @@ describe "ActiveRecord Obstacle Course" do
     # ------------------------------------------------------------
 
     # Expectation
-    expect(orders_of_500_and_700.count).to eq(3)
+    expect(orders_of_500_and_700.count).to eq(2)
     expect(orders_of_700_and_1000.count).to eq(2)
   end
 
