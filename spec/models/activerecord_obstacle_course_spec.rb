@@ -12,12 +12,6 @@ describe "ActiveRecord Obstacle Course" do
   let(:item_9)  { Item.create(name: "Thing 9") }
   let(:item_10) { Item.create(name: "Thing 10") }
 
-  let(:item_11) {Item.create(name: "Thing 1")}
-  let(:item_12) {Item.create(name: "Thing 2")}
-  let(:item_13) {Item.create(name: "Thing 3")}
-  let(:item_14) {Item.create(name: "Thing 4")}
-  let(:item_15) {Item.create(name: "Thing 5")}
-
   let!(:order_1)  { Order.create(amount: 200, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_2)  { Order.create(amount: 300, items: [item_1, item_1, item_2, item_3]) }
   let!(:order_3)  { Order.create(amount: 500, items: [item_2, item_3, item_4, item_5]) }
@@ -44,7 +38,7 @@ describe "ActiveRecord Obstacle Course" do
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    #
+    # Solution goes here
     # ------------------------------------------------------------
 
     # Expectation
@@ -61,11 +55,11 @@ describe "ActiveRecord Obstacle Course" do
     orders_of_700_and_1000 = Order.all.select do |order|
       order.amount == 700 || order.amount == 1000
     end
-
     # ------------------------------------------------------------
 
-    # ------------------ Using ActiveRecord ----------------------
 
+    # ------------------ Using ActiveRecord ----------------------
+    # Solution goes here
     # ------------------------------------------------------------
 
     # Expectation
@@ -103,14 +97,14 @@ describe "ActiveRecord Obstacle Course" do
     expect(orders).to eq([order_1, order_3, order_5, order_7])
   end
 
-  it "finds orders within an amount range of 700 to 1000" do
+  it "finds orders with an amount between 700 and 1000" do
     # ----------------------- Using Ruby -------------------------
     orders_between_700_and_1000 = Order.all.select { |order| order.amount >= 700 && order.amount <= 1000 }
     # ------------------------------------------------------------
 
 
     # ------------------ Using ActiveRecord ----------------------
-    #Solution goes here
+    # Solution goes here
     # ------------------------------------------------------------
 
     # Expectation
@@ -125,7 +119,7 @@ describe "ActiveRecord Obstacle Course" do
 
 
     # ------------------ Using ActiveRecord ----------------------
-    #Solution goes here
+    # Solution goes here
     # ------------------------------------------------------------
 
     # Expectation
@@ -162,6 +156,35 @@ describe "ActiveRecord Obstacle Course" do
                           order_12, order_13, order_14, order_15] )
   end
 
+  it "should return all items except items: 3, 4 & 5" do
+    # ----------------------- Using Ruby -------------------------
+    items_not_included = [item_3, item_4, item_5]
+    items = Item.all.map { |item| item unless items_not_included.include?(item) }.compact
+    # ------------------------------------------------------------
+
+    # ------------------ Using ActiveRecord ----------------------
+    # Solution goes here
+    # ------------------------------------------------------------
+
+    # Expectation
+    expect(items).to eq([item_1, item_2, item_7, item_8, item_9, item_10])
+
+  end
+
+  it "groups an order's items by name" do
+    # ----------------------- Using Ruby -------------------------
+    order = Order.find(3)
+    grouped_items = order.items.sort_by { |item| item.name }
+    # ------------------------------------------------------------
+
+    # ------------------ Using ActiveRecord ----------------------
+    # Solution goes here
+    # ------------------------------------------------------------
+
+    # Expectation
+    expect(grouped_items).to eq([item_2, item_3, item_4, item_5])
+  end
+
   it "plucks all values from one column" do
     # ----------------------- Using Ruby -------------------------
     names = Item.all.map(&:name)
@@ -176,9 +199,43 @@ describe "ActiveRecord Obstacle Course" do
                          "Thing 7", "Thing 8", "Thing 9", "Thing 10"])
   end
 
-  it "plucks all item names associated with a specific order" do
+  it "gets all item names associated with all orders" do
     # ----------------------- Using Ruby -------------------------
-    names = Order.items.all.map(&:name)
+    names = Order.all.map do |order|
+      if order.items
+        order.items.map { |item| item.name }
+      end
+    end
+
+    names = names.flatten
+    # ------------------------------------------------------------
+
+
+    # ------------------ Using ActiveRecord ----------------------
+    # Solution goes here
+    # ------------------------------------------------------------
+
+    # Expectation
+    expect(names).to eq(["Thing 1", "Thing 2", "Thing 3", "Thing 1",
+                         "Thing 1", "Thing 2", "Thing 3", "Thing 1",
+                         "Thing 2", "Thing 3", "Thing 4", "Thing 5",
+                         "Thing 1", "Thing 2", "Thing 3", "Thing 1",
+                         "Thing 1", "Thing 5", "Thing 4", "Thing 7",
+                         "Thing 5", "Thing 8", "Thing 9", "Thing 10",
+                         "Thing 1", "Thing 5", "Thing 7", "Thing 9",
+                         "Thing 2", "Thing 3", "Thing 8", "Thing 9",
+                         "Thing 3", "Thing 4", "Thing 8", "Thing 10",
+                         "Thing 1", "Thing 5", "Thing 4", "Thing 7",
+                         "Thing 5", "Thing 4", "Thing 7", "Thing 9",
+                         "Thing 1", "Thing 3", "Thing 7", "Thing 10",
+                         "Thing 2", "Thing 3", "Thing 4", "Thing 7",
+                         "Thing 3", "Thing 5", "Thing 8", "Thing 9",
+                         "Thing 1", "Thing 4", "Thing 5", "Thing 7"])
+  end
+
+  it "returns the name of items associated with a specific order" do
+    # ----------------------- Using Ruby -------------------------
+    names = Order.last.items.all.map(&:name)
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
@@ -186,7 +243,7 @@ describe "ActiveRecord Obstacle Course" do
     # ------------------------------------------------------------
 
     # Expectation
-    expect(names).to eq([])
+    expect(names).to eq(["Thing 1", "Thing 4", "Thing 5", "Thing 7"])
   end
 
   it "returns the average amount for all orders" do
@@ -218,11 +275,11 @@ describe "ActiveRecord Obstacle Course" do
   it "returns all orders for item_4" do
     # ------------------ Inefficient Solution -------------------
     order_ids = OrderItem.where(item_id: item_4.id).map(&:order_id)
-    orders = Order.find(order_ids)
+    orders = order_ids.map { |id| Order.find(id) }
     # -----------------------------------------------------------
 
     # ------------------ Improved Solution ----------------------
-    # Solution goes here
+    #  Solution goes here
     # -----------------------------------------------------------
 
     # Expectation
@@ -232,7 +289,6 @@ describe "ActiveRecord Obstacle Course" do
   it "returns items that are associated with one or more orders" do
 
     unordered_item = Item.create(name: "Unordered Item")
-    unordered_items = [item_11, item_12, item_13, item_14, item_15, unordered_item]
 
     # ----------------------- Using Ruby -------------------------
     items = Item.all
@@ -250,21 +306,24 @@ describe "ActiveRecord Obstacle Course" do
 
     # Expectations
     expect(ordered_items).to eq([item_1, item_2, item_3, item_4, item_5, item_7, item_8, item_9, item_10])
-    expect(ordered_items).to_not include(unordered_items)
+    expect(ordered_items).to_not include(unordered_item)
   end
 
   it "returns the names of items that are associated with one or more orders" do
-    unordered_item = Item.create(name: "Unordered Item")
-    unordered_items = [item_11, item_12, item_13, item_14, item_15, unordered_item]
+    unordered_item_1 = Item.create(name: "Unordered Item_1")
+    unordered_item_2 = Item.create(name: "Unordered Item2_")
+    unordered_item_3 = Item.create(name: "Unordered Item_3")
+
+    unordered_items = [unordered_item_1, unordered_item_2, unordered_item_3]
 
     # ----------------------- Using Ruby -------------------------
     items = Item.all
 
     ordered_items = items.map do |item|
       item if item.orders.present?
-    end
+    end.compact
 
-    ordered_items_names = ordered_items.compact.map(&:name)
+    ordered_items_names = ordered_items.map(&:name)
     # ------------------------------------------------------------
 
     # ------------------ ActiveRecord Solution ----------------------
@@ -277,6 +336,7 @@ describe "ActiveRecord Obstacle Course" do
     expect(ordered_items_names).to eq( ["Thing 1", "Thing 2", "Thing 3", "Thing 4", "Thing 5", "Thing 7", "Thing 8", "Thing 9", "Thing 10"])
     expect(ordered_items_names).to_not include( unordered_items )
   end
+
 
   xit "returns the names of items that have been ordered without n+1 queries" do
     # What is an n+1 query?
