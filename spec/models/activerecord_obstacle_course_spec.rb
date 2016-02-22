@@ -20,7 +20,7 @@ describe "ActiveRecord Obstacle Course" do
   let!(:order_6)  { Order.create(amount: 580, items: [item_5, item_8, item_9, item_10]) }
   let!(:order_7)  { Order.create(amount: 600, items: [item_1, item_5, item_7, item_9]) }
   let!(:order_8)  { Order.create(amount: 700, items: [item_2, item_3, item_8, item_9]) }
-  let!(:order_9)  { Order.create(amount: 650, items: [item_3, item_4, item_8, item_10]) }
+  let!(:order_9)  { Order.create(amount: 649, items: [item_3, item_4, item_8, item_10]) }
   let!(:order_10) { Order.create(amount: 750, items: [item_1, item_5, item_4, item_7]) }
   let!(:order_11) { Order.create(amount: 800, items: [item_5, item_4, item_7, item_9]) }
   let!(:order_12) { Order.create(amount: 850, items: [item_1, item_3, item_7, item_10]) }
