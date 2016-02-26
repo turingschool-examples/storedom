@@ -6,6 +6,6 @@
     <p>
       <%= @item.description %>
     </p>
-    <p><%= link_to "Add to Cart", cart_items_path(@item), method: :post %></p>
+    <p><%= link_to "Add to Cart", cart_items_path(id: @item.id), method: :post %></p>
   </div>
 </div>

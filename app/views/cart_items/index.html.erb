@@ -1,0 +1,12 @@
+<table class="table">
+  <tr>
+    <th>Item Name</td>
+    <th>Quantity</th>
+  </tr>
+<% @cart.each do |item_id, qty| %>
+<tr>
+  <td><%= Item.find(item_id).name %></td>
+  <td><%= qty %></td>
+</tr>
+<% end %>
+</table>
