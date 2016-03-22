@@ -7,7 +7,7 @@
   <div class="row"></div>
   <% @stores.each do |store| %>
     <div class="col-sm-3">
-      <h5><%= store.name %></h5>
+      <h5><%= link_to store.name, store_items_path(store.slug) %></h5>
     </div>
   <% end %>
 </div>
