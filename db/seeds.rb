@@ -3,6 +3,7 @@ class Seed
     generate_users
     generate_items
     generate_orders
+    generate_stores
   end
 
   def generate_users
@@ -32,6 +33,16 @@ class Seed
       order = Order.create!(user_id: user.id)
       add_items(order)
       puts "Order #{i}: Order for #{user.name} created!"
+    end
+  end
+
+  def generate_stores
+    50.times do |i|
+      store = Store.create!(
+        name: Faker::Company.name,
+        user_id: rand(1..50)
+        )
+      puts "Company #{i}: #{store.name} created!"
     end
   end
 

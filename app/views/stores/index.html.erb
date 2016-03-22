@@ -1,2 +1,13 @@
-<h1>Stores#index</h1>
-<p>Find me in app/views/stores/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1><%= @stores.count %> Stores</h1>
+    </div>
+  </div>
+  <div class="row"></div>
+  <% @stores.each do |store| %>
+    <div class="col-sm-3">
+      <h5><%= store.name %></h5>
+    </div>
+  <% end %>
+</div>
