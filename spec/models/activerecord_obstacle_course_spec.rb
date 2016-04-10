@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "ActiveRecord Obstacle Course" do
+RSpec.describe "ActiveRecord Obstacle Course" do
   let(:item_1) { Item.create(name: "Thing 1") }
   let(:item_2) { Item.create(name: "Thing 2") }
   let(:item_3) { Item.create(name: "Thing 3") }
@@ -13,13 +13,13 @@ describe "ActiveRecord Obstacle Course" do
 
   it "finds orders by amount" do
     # ----------------------- Using Ruby -------------------------
-    orders_of_500 = Order.all.select { |order| order.amount == 500 }
-    orders_of_200 = Order.all.select { |order| order.amount == 200 }
+    # orders_of_500 = Order.all.select { |order| order.amount == 500 }
+    # orders_of_200 = Order.all.select { |order| order.amount == 200 }
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Get the tests below to pass using ActiveRecord's `where` instead of
-    # the Ruby implementation above.
+    orders_of_500 = Order.where(amount: 500)
+    orders_of_200 = Order.where(amount: 200)
     # ------------------------------------------------------------
 
     # Expectation
@@ -30,12 +30,13 @@ describe "ActiveRecord Obstacle Course" do
   it 'finds multiple items by id' do
     ids = [item_1.id, item_2.id, item_4.id]
     # ----------------------- Using Ruby -------------------------
-    items = Item.all.select { |item| ids.include?(item.id) }
+    # items = Item.all.select { |item| ids.include?(item.id) }
     # ------------------------------------------------------------
 
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    # items = Item.where({id: ids})
+    items = Item.find(ids)
     # ------------------------------------------------------------
 
     # Expectation
@@ -44,11 +45,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "sorts the orders from most expensive to least expensive" do
     # ----------------------- Using Ruby -------------------------
-    orders = Order.all.sort_by { |order| order.amount }.reverse
+    # orders = Order.all.sort_by { |order| order.amount }.reverse
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    orders = Order.order(amount: :desc, id: :desc)
     # ------------------------------------------------------------
 
     # Expectation
@@ -57,11 +58,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "plucks all values from one column" do
     # ----------------------- Using Ruby -------------------------
-    names = Item.all.map(&:name)
+    # names = Item.all.map(&:name)
     # ------------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    names = Item.pluck(:name)
     # ------------------------------------------------------------
 
     # Expectation
@@ -70,11 +71,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "returns the average amount for all orders" do
     # ---------------------- Using Ruby -------------------------
-    average = (Order.all.map(&:amount).inject(:+)) / (Order.count)
+    # average = (Order.all.map(&:amount).inject(:+)) / (Order.count)
     # -----------------------------------------------------------
 
     # ------------------ Using ActiveRecord ----------------------
-    # Solution goes here
+    average = Order.average(:amount)
     # ------------------------------------------------------------
 
     # Expectation
@@ -83,11 +84,11 @@ describe "ActiveRecord Obstacle Course" do
 
   it "calculates the total sales" do
     # ---------------------- Using Ruby -------------------------
-    total_sales = Order.all.map(&:amount).inject(:+)
+    # total_sales = Order.all.map(&:amount).inject(:+)
     # -----------------------------------------------------------
 
     # ------------------ Using ActiveRecord ---------------------
-    # Solution goes here
+    total_sales = Order.sum(:amount)
     # -----------------------------------------------------------
 
     # Expectation
@@ -96,12 +97,12 @@ describe "ActiveRecord Obstacle Course" do
 
   it "returns all orders for item_4" do
     # ------------------ Inefficient Solution -------------------
-    order_ids = OrderItem.where(item_id: item_4.id).map(&:order_id)
-    orders = Order.find(order_ids)
+    # order_ids = OrderItem.where(item_id: item_4.id).map(&:order_id)
+    # orders = Order.find(order_ids)
     # -----------------------------------------------------------
 
     # ------------------ Improved Solution ----------------------
-    # Solution goes here
+    orders = item_4.orders
     # -----------------------------------------------------------
 
     # Expectation
@@ -111,17 +112,17 @@ describe "ActiveRecord Obstacle Course" do
   it "returns items that are associated with one or more orders" do
     unordered_item = Item.create(name: "Unordered Item")
     # ----------------------- Using Ruby -------------------------
-    items = Item.all
-
-    ordered_items = items.map do |item|
-      item if item.orders.present?
-    end
-
-    ordered_items = ordered_items.compact
+    # items = Item.all
+    #
+    # ordered_items = items.map do |item|
+    #   item if item.orders.present?
+    # end
+    #
+    # ordered_items = ordered_items.compact
     # ------------------------------------------------------------
 
     # ------------------ ActiveRecord Solution ----------------------
-    # Solution goes here
+    ordered_items = Item.joins(:orders).distinct
     # ---------------------------------------------------------------
 
     # Expectations
@@ -132,26 +133,24 @@ describe "ActiveRecord Obstacle Course" do
   it "returns the names of items that are associated with one or more orders" do
     unordered_item = Item.create(name: "Unordered Item")
     # ----------------------- Using Ruby -------------------------
-    items = Item.all
-
-    ordered_items = items.map do |item|
-      item if item.orders.present?
-    end
-
-    ordered_items_names = ordered_items.compact.map(&:name)
+    # items = Item.all
+    #
+    # ordered_items = items.map do |item|
+    #   item if item.orders.present?
+    # end
+    #
+    # ordered_items_names = ordered_items.compact.map(&:name)
     # ------------------------------------------------------------
 
     # ------------------ ActiveRecord Solution ----------------------
-    # Solution goes here
-    # When you find a solution, experiment with adjusting your method chaining
-    # Which ones are you able to switch around without relying on Ruby's Enumerable methods?
+    ordered_items_names = Item.joins(:orders).distinct.pluck(:name)
     # ---------------------------------------------------------------
 
     # Expectations
     expect(ordered_items_names).to eq(["Thing 1", "Thing 2", "Thing 3", "Thing 4", "Thing 5"])
   end
 
-  xit "returns the names of items that have been ordered without n+1 queries" do
+  it "returns the names of items that have been ordered without n+1 queries" do
     # What is an n+1 query?
     # This video is older, but the concepts explained are still relevant:
     # http://railscasts.com/episodes/372-bullet
@@ -162,7 +161,7 @@ describe "ActiveRecord Obstacle Course" do
     Bullet.start_request
 
     # ------------------------------------------------------
-    orders = Order.all # Edit only this line
+    orders = Order.includes(:items) # Edit only this line
     # ------------------------------------------------------
 
     # Do not edit below this line
