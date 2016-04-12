@@ -5,7 +5,5 @@ json.(@items) do |item|
   json.orders item.orders do |order|
     json.(order, :id)
   end
-  json._links {
-    self: api_v1_item_url(item.id)
-  }
+  json._links({self: api_v1_item_url(item.id)})
 end
