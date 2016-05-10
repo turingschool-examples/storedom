@@ -1,6 +1,6 @@
 <h1>Stores#index</h1>
 <ul>
 <% @stores.each do |store| %>
-  <li><%= store.name %></li>
+  <li><%= link_to store.name, store_path(store.slug) %></li>
 <% end %>
 </ul>

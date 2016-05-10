@@ -1,9 +1,10 @@
 class StoresController < ApplicationController
+  
   def index
     @stores = Store.all
   end
 
   def show
-    @store = Store.find(params[:id])
+    @store = Store.find_by(slug: params[:store])
   end
 end

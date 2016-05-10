@@ -38,7 +38,7 @@ class Seed
 
   def generate_stores
     20.times do |i|
-      Store.create(name: Faker::Company.name)
+      store = Store.create(name: Faker::Company.name)
     end
   end
 
