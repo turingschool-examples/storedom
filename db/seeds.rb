@@ -1,9 +1,10 @@
 class Seed
   def initialize
+    @num_stores = 20
     generate_users
+    generate_stores
     generate_items
     generate_orders
-    generate_stores
   end
 
   def generate_users
@@ -21,7 +22,8 @@ class Seed
       item = Item.create!(
         name: Faker::Commerce.product_name,
         description: Faker::Lorem.paragraph,
-        image_url: "http://robohash.org/#{i}.png?set=set2&bgset=bg1&size=200x200"
+        image_url: "http://robohash.org/#{i}.png?set=set2&bgset=bg1&size=200x200",
+        store_id: rand(1..@num_stores)
         )
       puts "Item #{i}: #{item.name} created!"
     end
@@ -37,7 +39,7 @@ class Seed
   end
 
   def generate_stores
-    20.times do |i|
+    @num_stores.times do |i|
       store = Store.create(name: Faker::Company.name)
     end
   end
