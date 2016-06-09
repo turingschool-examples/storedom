@@ -1,21 +1,26 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-12">
-      <h1><%= @orders.count %> Orders</h1>
-    </div>
+    <% cache("orders-count-#{@orders.count}") do %>
+      <div class="col-sm-12">
+        <h1><%= @orders.count %> Orders</h1>
+      </div>
+    <% end %>
   </div>
   <div class="row"></div>
-  <% @orders.each do |order| %>
-    <div class="col-sm-12">
-      <h2>Order <%= order.id %></h2>
-      <h5>Client: <%= order.user.name %></h5>
-      <h5>Order Items</h5>
-      <% order.items.each_with_index do |item, index| %>
-        <p>
-          <%= "#{index + 1}. #{item.name}" %>
-        </p>
-      <% end %>
-    </div>
+  <% cache(cache_key_for(Order, "list")) do %>
+    <% @orders.each do |order| %>
+      <% cache(order) do %>
+        <div class="col-sm-12">
+          <h2>Order <%= order.id %></h2>
+          <h5>Client: <%= order.user.name %></h5>
+          <h5>Order Items</h5>
+          <% order.items.each_with_index do |item, index| %>
+            <p>
+              <%= "#{index + 1}. #{item.name}" %>
+            </p>
+          <% end %>
+        </div>
+      <% end%>
+    <% end %>
   <% end %>
 </div>
-

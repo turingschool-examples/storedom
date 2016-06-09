@@ -1,6 +1,10 @@
 class ItemsController < ApplicationController
+
   def index
-    @items = Item.all
+    @items = Rails.cache.fetch("all-items", expires_at: Date.tomorrow) do
+      Item.all
+    end
+
   end
 
   def show
