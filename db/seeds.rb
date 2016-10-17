@@ -31,8 +31,9 @@ class Seed
   end
 
   def generate_orders
+    offsetable_amount = User.count - 1
     100.times do |i|
-      user  = User.find(Random.new.rand(1..50))
+      user  = User.offset(rand(0..offsetable_amount)).limit(1).first
       order = Order.create!(user_id: user.id)
       add_items(order)
       puts "Order #{i}: Order for #{user.name} created!"
@@ -42,8 +43,9 @@ class Seed
   private
 
   def add_items(order)
+    offsetable_amount = Item.count - 1
     10.times do |i|
-      item = Item.find(Random.new.rand(1..500))
+      item = Item.offset(rand(0..offsetable_amount)).limit(1).first
       order.items << item
       puts "#{i}: Added item #{item.name} to order #{order.id}."
     end
