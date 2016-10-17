@@ -1,5 +1,9 @@
 class Seed
-  def initialize
+  def self.run
+    new.run
+  end
+
+  def run
     generate_users
     generate_items
     generate_orders
@@ -46,4 +50,4 @@ class Seed
   end
 end
 
-Seed.new
+Seed.run
