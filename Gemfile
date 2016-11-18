@@ -12,6 +12,7 @@ gem 'faker'
 gem 'haml-rails'
 gem 'therubyracer'
 gem 'less-rails-bootstrap'
+gem 'rb-readline'
 
 group :development do
   gem 'spring'
