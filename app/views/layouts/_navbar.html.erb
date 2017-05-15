@@ -9,7 +9,7 @@
     <a class="navbar-brand" href="/">Storedom</a>
   </div>
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
+    <!-- <ul class="nav navbar-nav">
       <li>
         <a href="/">Items</a>
       </li>
@@ -19,6 +19,7 @@
       <li>
         <a href="/orders">Orders</a>
       </li>
-    </ul>
+    </ul> -->
+    <%= link_to "Items", store_items_path(store: @current_store.slug) %>
   </div>
 </nav>

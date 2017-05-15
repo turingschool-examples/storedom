@@ -1,0 +1,4 @@
+<% @stores.each do |store| %>
+  <%= store.name %>
+  <%= link_to "Visit Store", store_items_path(store: store.slug) %>
+<% end %>
