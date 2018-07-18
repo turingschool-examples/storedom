@@ -7,7 +7,18 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+  before_action :authorize!
+
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+
+  def authorize!
+    current_permission = PermissionService.new(current_user, params[:controller], params[:action])
+    four_oh_four unless current_permission.authorized?
+  end
+
+  def four_oh_four
+    raise ActionController::RoutingError.new('Not Found')
   end
 end
