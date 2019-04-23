@@ -20,7 +20,7 @@ describe "ActiveRecord American Gladiator" do
       Item.create(name: "Powerball Goal")
       Item.create(name: "Trap Door")
       # Changeable Start
-      items = Item.where('name LIKE ?', "%#{"Powerball"}%")
+      items = Item.where('name LIKE ?', "%Powerball%")
       # Changeable End
 
       expect(items.count).to eq(2)
@@ -81,7 +81,7 @@ describe "ActiveRecord American Gladiator" do
   end
 
   context "Breakthrough and Conquer" do
-    xit "returns all orders with Footballs and Wrestling Rings" do
+    it "returns all orders with Footballs and Wrestling Rings" do
       wrestling_ring = Item.create(name: "Wrestling Ring")
       football       = Item.create(name: "Football")
       sweat          = Item.create(name: "Sweat")
@@ -90,7 +90,8 @@ describe "ActiveRecord American Gladiator" do
       order_3        = Order.create(items: [football])
 
       # Changeable Start
-      orders = Order.joins(:order_items).where('order_items.item_id in (1,3)')
+      # orders = Order.joins(:order_items).where("order_items.item_id = ? OR order_items.item_id = ?", 1,2)
+      orders = Order.joins(:order_items).where(order_items: {item: [wrestling_ring, football]})
       # Order.all.select do |order|
       #   order.items.include?(football) || order.items.include?(wrestling_ring)
       # end
@@ -103,7 +104,7 @@ describe "ActiveRecord American Gladiator" do
   end
 
   context "The Eliminator" do
-    xit "returns all orders placed 2 weeks ago" do
+    it "returns all orders placed 2 weeks ago" do
       last_week = Date.today.last_week
       two_weeks_ago = Date.today.last_week - 7.days
 
@@ -114,9 +115,10 @@ describe "ActiveRecord American Gladiator" do
       order_5 = Order.create(created_at: two_weeks_ago + 2.days)
 
       # Changeable Start
-      orders = Order.all.select do |order|
-        order.created_at >= two_weeks_ago && order.created_at <= last_week
-      end
+      # orders = Order.all.select do |order|
+      #   order.created_at >= two_weeks_ago && order.created_at <= last_week
+      # end
+      orders = Order.where("created_at >= :start_date AND created_at <= :end_date", {start_date: two_weeks_ago, end_date: last_week})
       # Changeable End
 
       expect(orders).to eq([order_1, order_3, order_5])
@@ -135,23 +137,25 @@ describe "ActiveRecord American Gladiator" do
       Order.create(items: [lights, lights, lights])
 
       # Changeable Start
-      items_with_count = Hash.new(0)
 
-      Order.all.each do |order|
-        order.items.each do |item|
-          items_with_count[item.id] += 1
-        end
-      end
-
-      top_items_with_count = items_with_count.sort_by { |item_id, count|
-        count
-      }.reverse.first(2)
-
-      top_item_ids = top_items_with_count.first.zip(top_items_with_count.last).first
-
-      most_popular_items = top_item_ids.map do |id|
-        Item.find(id)
-      end
+      most_popular_items = Item.select('items.*, count(order_items.item_id)as item_count').joins(:order_items).group(:item_id).order(:name).limit(2)
+      # items_with_count = Hash.new(0)
+      #
+      # Order.all.each do |order|
+      #   order.items.each do |item|
+      #     items_with_count[item.id] += 1
+      #   end
+      # end
+      #
+      # top_items_with_count = items_with_count.sort_by { |item_id, count|
+      #   count
+      # }.reverse.first(2)
+      #
+      # top_item_ids = top_items_with_count.first.zip(top_items_with_count.last).first
+      #
+      # most_popular_items = top_item_ids.map do |id|
+      #   Item.find(id)
+      # end
       # Changeable Stop
 
       # Hints: http://apidock.com/rails/ActiveRecord/QueryMethods/select
