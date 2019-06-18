@@ -22,7 +22,7 @@ describe "ActiveRecord American Gladiator" do
       Item.create(name: "Trap Door")
 
       # Changeable Start
-      items = Item.all.where("items.name like ?", "%Powerball%")
+      items = Item.where("items.name like ?", "%Powerball%")
       # Changeable End
 #https://stackoverflow.com/questions/17956855/rails-active-record-search-name-includes-a-word
       expect(items.count).to eq(2)
@@ -45,16 +45,18 @@ describe "ActiveRecord American Gladiator" do
       order_amounts = []
 
       # Changeable Start
+
       users = User.first(3)
+      order_amounts = User.includes(:orders).order(:id).limit(3).pluck(:amount)
       # Changeable End
 
       # Use eager loading to remove the N+1 query
       # Hint: Read until section 13.1 - http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations
 
-      users.each do |user|
-        # The problem: Each time we call user.orders, we go to the DB to pull them down.
-        order_amounts << user.orders.first.amount
-      end
+      # users.each do |user|
+      #   # The problem: Each time we call user.orders, we go to the DB to pull them down.
+      #   order_amounts << user.orders.first.amount
+      # end
 
       expect(order_amounts).to eq([1, 2, 4])
       expect(order_amounts).to_not include(3)
@@ -62,7 +64,7 @@ describe "ActiveRecord American Gladiator" do
   end
 
   context "The Maze" do
-    xit "returns all users that have placed an order" do
+    it "returns all users that have placed an order" do
       gemini = User.create(name: "Gemini")
       sky    = User.create(name: "Sky")
       nitro  = User.create(name: "Nitro")
@@ -72,9 +74,12 @@ describe "ActiveRecord American Gladiator" do
       nitro.orders.create
 
       # Changeable Start
-      active_users = User.all.select do |user|
-        user.orders.present?
-      end
+      #binding.pry
+      active_users = User.joins(:orders).distinct
+      # active_users = User.all.select do |user|
+      #   binding.pry
+      #   user.orders.present?
+      # end
       # Changeable End
 
       # Hint: http://guides.rubyonrails.org/active_record_querying.html#joining-tables
@@ -84,7 +89,7 @@ describe "ActiveRecord American Gladiator" do
   end
 
   context "Breakthrough and Conquer" do
-    xit "returns all orders with Footballs and Wrestling Rings" do
+    it "returns all orders with Footballs and Wrestling Rings" do
       wrestling_ring = Item.create(name: "Wrestling Ring")
       football       = Item.create(name: "Football")
       sweat          = Item.create(name: "Sweat")
@@ -93,19 +98,25 @@ describe "ActiveRecord American Gladiator" do
       order_3        = Order.create(items: [football])
 
       # Changeable Start
-      orders = Order.all.select do |order|
-        order.items.include?(football) || order.items.include?(wrestling_ring)
-      end
+  #binding.pry
+      orders = Order.joins(:items).where("items.name = ? OR items.name = ?", "Football", "Wrestling Ring")
+
+      # orders = Order.all.select do |order|
+      #   order.items.include?(football) || order.items.include?(wrestling_ring)
+      # end
       # Changeable End
 
       # Hint: Take a look at the `Joins` section and the example that combines `joins` and `where` here: http://apidock.com/rails/ActiveRecord/QueryMethods/where
+      #User.joins(:posts).where("posts.created_at < ?", Time.now)
+      #YourModel.where("categories.id IN ? OR category_relationships.category_id IN ?", category_ids, category_ids)
+
 
       expect(orders).to eq([order_1, order_3])
     end
   end
 
   context "The Eliminator" do
-    xit "returns all orders placed 2 weeks ago" do
+    it "returns all orders placed 2 weeks ago" do
       last_week = Date.today.last_week
       two_weeks_ago = Date.today.last_week - 7.days
 
@@ -116,9 +127,12 @@ describe "ActiveRecord American Gladiator" do
       order_5 = Order.create(created_at: two_weeks_ago + 2.days)
 
       # Changeable Start
-      orders = Order.all.select do |order|
-        order.created_at >= two_weeks_ago && order.created_at <= last_week
-      end
+      #binding.pry
+      orders = Order.where("created_at >= ? AND created_at <= ?", two_weeks_ago, last_week)
+
+      # orders = Order.all.select do |order|
+      #   order.created_at >= two_weeks_ago && order.created_at <= last_week
+      # end
       # Changeable End
 
       expect(orders).to eq([order_1, order_3, order_5])
@@ -127,7 +141,7 @@ describe "ActiveRecord American Gladiator" do
 
   context "Atlasphere" do
     # This one is challenging.
-    xit "returns most popular items" do
+    it "returns most popular items" do
       scoring_pod = Item.create(name: "Scoring Pod")
       lights      = Item.create(name: "Lights")
       smoke       = Item.create(name: "Smoke")
@@ -137,23 +151,31 @@ describe "ActiveRecord American Gladiator" do
       Order.create(items: [lights, lights, lights])
 
       # Changeable Start
-      items_with_count = Hash.new(0)
+      most_popular_items = Item.joins(:order_items).group("items.id").order("COUNT(items.id) DESC").limit(2)
 
-      Order.all.each do |order|
-        order.items.each do |item|
-          items_with_count[item.id] += 1
-        end
-      end
+     # Company
+     #   .left_joins(:jobs)
+     #   .group(:id)
+     #   .order('COUNT(jobs.id) DESC')
+     #   .limit(10)
 
-      top_items_with_count = items_with_count.sort_by { |item_id, count|
-        count
-      }.reverse.first(2)
-
-      top_item_ids = top_items_with_count.first.zip(top_items_with_count.last).first
-
-      most_popular_items = top_item_ids.map do |id|
-        Item.find(id)
-      end
+      # items_with_count = Hash.new(0)
+      #
+      # Order.all.each do |order|
+      #   order.items.each do |item|
+      #     items_with_count[item.id] += 1
+      #   end
+      # end
+      #
+      # top_items_with_count = items_with_count.sort_by { |item_id, count|
+      #   count
+      # }.reverse.first(2)
+      #
+      # top_item_ids = top_items_with_count.first.zip(top_items_with_count.last).first
+      #
+      # most_popular_items = top_item_ids.map do |id|
+      #   Item.find(id)
+      # end
       # Changeable Stop
 
       # Hints: http://apidock.com/rails/ActiveRecord/QueryMethods/select
