@@ -8,29 +8,29 @@ describe "ActiveRecord American Gladiator" do
       Item.create(name: "Crash Pad", status: "inactive")
 
       # Changeable Start
-      items = Item.all
+      items = Item.all.unscoped
       # Changeable End
-
+#https://apidock.com/rails/ActiveRecord/Base/unscoped/class
       expect(items.count).to eq 3
     end
   end
 
   context "Powerball" do
-    xit "returns all items containing Powerball" do
+    it "returns all items containing Powerball" do
       Item.create(name: "Powerball Ball")
       Item.create(name: "Powerball Goal")
       Item.create(name: "Trap Door")
 
       # Changeable Start
-      items = Item.all
+      items = Item.all.where("items.name like ?", "%Powerball%")
       # Changeable End
-
+#https://stackoverflow.com/questions/17956855/rails-active-record-search-name-includes-a-word
       expect(items.count).to eq(2)
     end
   end
 
   context "Hang Tough" do
-    xit "returns orders for 3 users in 2 queries (aka: Remove the N+1 query)" do
+    it "returns orders for 3 users in 2 queries (aka: Remove the N+1 query)" do
       diamond  = User.create(name: "Diamond")
       turbo    = User.create(name: "Turbo")
       laser    = User.create(name: "Laser")
@@ -163,4 +163,3 @@ describe "ActiveRecord American Gladiator" do
     end
   end
 end
-
