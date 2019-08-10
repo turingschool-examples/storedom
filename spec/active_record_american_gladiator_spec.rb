@@ -62,7 +62,7 @@ describe "ActiveRecord American Gladiator" do
   end
 
   context "The Maze" do
-    xit "returns all users that have placed an order" do
+    it "returns all users that have placed an order" do
       gemini = User.create(name: "Gemini")
       sky    = User.create(name: "Sky")
       nitro  = User.create(name: "Nitro")
@@ -72,9 +72,7 @@ describe "ActiveRecord American Gladiator" do
       nitro.orders.create
 
       # Changeable Start
-      active_users = User.all.select do |user|
-        user.orders.present?
-      end
+      active_users = User.joins(:orders).distinct
       # Changeable End
 
       # Hint: http://guides.rubyonrails.org/active_record_querying.html#joining-tables
