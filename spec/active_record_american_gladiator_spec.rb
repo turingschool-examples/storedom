@@ -8,7 +8,7 @@ describe "ActiveRecord American Gladiator" do
       Item.create(name: "Crash Pad", status: "inactive")
 
       # Changeable Start
-      items = Item.all
+      items = Item.unscoped.all
       # Changeable End
 
       expect(items.count).to eq 3
@@ -163,4 +163,3 @@ describe "ActiveRecord American Gladiator" do
     end
   end
 end
-
