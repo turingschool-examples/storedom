@@ -16,13 +16,13 @@ describe "ActiveRecord American Gladiator" do
   end
 
   context "Powerball" do
-    xit "returns all items containing Powerball" do
+    it "returns all items containing Powerball" do
       Item.create(name: "Powerball Ball")
       Item.create(name: "Powerball Goal")
       Item.create(name: "Trap Door")
 
       # Changeable Start
-      items = Item.all
+      items = Item.where('name like "%Powerball%"')
       # Changeable End
 
       expect(items.count).to eq(2)
